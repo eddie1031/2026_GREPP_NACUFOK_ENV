@@ -1,0 +1,29 @@
+name: cu-rag-example
+
+services:
+  
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: cu-pgvector
+    environment:
+      POSTGRES_USER: nacufok1
+      POSTGRES_PASSWORD: cu1234
+      POSTGRES_DB: nacufok1ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./vector-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: cu-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+
+volumes:
+  pgdata:
+  ollama:
+
